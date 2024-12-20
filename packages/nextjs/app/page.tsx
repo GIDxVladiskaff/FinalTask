@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
-import CreatePoll from "../components/CreatePoll";
-import PollList from "../components/PollList";
+import CreateVoting from "../components/CreateVoting";
+import VotingCatalog from "../components/VotingCatalog";
 import { NextPage } from "next";
 import { useAccount } from "wagmi";
-import PollResults from "~~/components/PollResults";
+import Results from "~~/components/Results";
 
 const Page: NextPage = () => {
   const { address, isConnected } = useAccount();
@@ -22,7 +22,7 @@ const Page: NextPage = () => {
       <div className="flex flex-col items-center space-y-8">
         {/* Компонент для создания нового голосования */}
         {isConnected ? (
-          <CreatePoll />
+          <CreateVoting />
         ) : (
           <div className="p-6 bg-orange-200 text-orange-900 rounded-2xl shadow-lg w-full max-w-2xl text-center">
             <p className="text-lg font-medium">Подключитесь к вашему кошельку, чтобы создать новое голосование.</p>
@@ -35,7 +35,7 @@ const Page: NextPage = () => {
         {/* Список всех голосований */}
         <div className="w-full max-w-2xl">
           <h2 className="text-2xl font-semibold text-orange-900 mb-4">Список голосований</h2>
-          <PollList />
+          <VotingCatalog />
         </div>
 
         {/* Разделитель */}
@@ -44,7 +44,7 @@ const Page: NextPage = () => {
         {/* Список результатов */}
         <div className="w-full max-w-2xl">
           <h2 className="text-2xl font-semibold text-orange-900 mb-4">Результаты голосований</h2>
-          <PollResults />
+          <Results />
         </div>
       </div>
     </div>

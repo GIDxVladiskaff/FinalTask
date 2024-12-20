@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 
-export default function PollResults() {
+export default function Results() {
   const [pollId, setPollId] = useState<number>(-1);
 
   // Чтение результатов голосования

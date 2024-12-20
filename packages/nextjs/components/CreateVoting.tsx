@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
-export default function CreatePoll() {
+export default function CreateVoting() {
   // Состояние для вопроса, вариантов ответа, текущего ввода варианта и длительности
   const [question, setQuestion] = useState<string>("");
   const [options, setOptions] = useState<string[]>([]);
@@ -39,9 +39,9 @@ export default function CreatePoll() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-400 via-amber-500 to-yellow-500">
-      <div className="w-full max-w-md p-8 bg-beige-100 rounded-lg shadow-2xl">
-        <h2 className="text-3xl font-bold text-brown-800 mb-6 text-center">Создать голосование</h2>
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="w-full max-w-md p-8 rounded-lg shadow-2xl">
+        <h2 className="text-3xl font-bold text-black mb-6 text-center">Создать голосование</h2>
 
         {/* Поле ввода вопроса */}
         <div className="mb-4">

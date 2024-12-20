@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 
-export default function HasUserVoted({ pollId }: { pollId: bigint }) {
+export default function UserVoted({ pollId }: { pollId: bigint }) {
   const [hasVoted, setHasVoted] = useState<boolean | undefined>(undefined);
 
   // Хук для чтения данных о том, проголосовал ли пользователь

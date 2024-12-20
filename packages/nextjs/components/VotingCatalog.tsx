@@ -1,8 +1,8 @@
-import EndPoll from "~~/components/EndPoll";
-import HasUserVoted from "~~/components/HasUserVoted";
+import EndVoting from "~~/components/EndVoting";
+import UserVoted from "~~/components/UserVoted";
 import { useScaffoldReadContract, useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
-export default function PollList() {
+export default function VotingCatalog() {
   // Чтение количества существующих голосований
   const { data: pollCount } = useScaffoldReadContract({
     contractName: "VotingContract",
@@ -41,7 +41,14 @@ function PollItem({ pollId }: { pollId: bigint }) {
 
   if (!data) return <p className="text-white">Загрузка...</p>;
 
-  const [question, options, , isActive] = data;
+  const [question, options, endTime, isActive] = data; // Добавлено получение endTime
+
+  // Функция для проверки, завершено ли голосование по времени
+  const isPollEnded = () => {
+    const currentTime = Math.floor(Date.now() / 1000); // Текущее время в секундах
+    return currentTime >= Number(endTime); // Сравниваем с endTime
+  };
+
   return (
     <div className="bg-white p-6 rounded-2xl shadow-2xl mb-6">
       <h3 className="text-2xl font-bold text-blue-900 mb-4">{question}</h3>
@@ -49,29 +56,33 @@ function PollItem({ pollId }: { pollId: bigint }) {
         {options.map((opt: string, idx: number) => (
           <li key={idx} className="flex justify-between items-center">
             <span className="text-blue-900 text-lg">{opt}</span>
-            {isActive && (
-              <button
-                onClick={() =>
-                  writeContractAsync({
-                    functionName: "vote",
-                    args: [BigInt(pollId), BigInt(idx)],
-                  })
-                }
-                className="bg-yellow-400 text-blue-900 px-6 py-3 rounded-lg hover:bg-yellow-500 transition duration-300 font-medium"
-              >
-                Голосовать
-              </button>
-            )}
+            {isActive &&
+              !isPollEnded() && ( // Добавлена проверка isPollEnded
+                <button
+                  onClick={() =>
+                    writeContractAsync({
+                      functionName: "vote",
+                      args: [BigInt(pollId), BigInt(idx)],
+                    })
+                  }
+                  className="bg-yellow-400 text-blue-900 px-6 py-3 rounded-lg hover:bg-yellow-500 transition duration-300 font-medium"
+                >
+                  Голосовать
+                </button>
+              )}
           </li>
         ))}
       </ul>
-      {!isActive && <p className="text-red-500 text-center text-lg font-medium">Голосование завершено</p>}
-      {isActive && (
-        <div className="flex justify-center mt-6">
-          <EndPoll pollId={pollId} />
-        </div>
+      {(isPollEnded() || !isActive) && (
+        <p className="text-red-500 text-center text-lg font-medium">Голосование завершено</p>
       )}
-      <HasUserVoted pollId={pollId} />
+      {isActive &&
+        !isPollEnded() && ( // Добавлена проверка isPollEnded
+          <div className="flex justify-center mt-6">
+            <EndVoting pollId={pollId} />
+          </div>
+        )}
+      <UserVoted pollId={pollId} />
     </div>
   );
 }

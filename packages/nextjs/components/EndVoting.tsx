@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
-export default function EndPoll({ pollId }: { pollId: bigint }) {
+export default function EndVoting({ pollId }: { pollId: bigint }) {
   // Хук для записи данных в смарт-контракт
   const { writeContractAsync, isMining } = useScaffoldWriteContract({
     contractName: "VotingContract",
@@ -29,7 +29,7 @@ export default function EndPoll({ pollId }: { pollId: bigint }) {
   };
 
   return (
-    <div className="w-full max-w-md p-6 bg-gray-800 text-white rounded-lg shadow-lg">
+    <div className="w-full max-w-md p-6 text-black rounded-lg shadow-lg">
       <div className="flex flex-col items-start justify-start space-y-4">
         <div className="flex items-center space-x-3">
           <span className="text-4xl text-yellow-300">⚠️</span>
@@ -39,12 +39,12 @@ export default function EndPoll({ pollId }: { pollId: bigint }) {
         <button
           onClick={handleEndPoll}
           disabled={isMining || isSuccess}
-          className={`px-6 py-3 rounded-none text-white font-medium flex items-center justify-center border-2 ${
+          className={`px-6 py-3 rounded-none text-black font-medium flex items-center justify-center border-2 ${
             isMining
-              ? "bg-gray-600 border-gray-600 cursor-not-allowed"
+              ? "bg-gray-200 border-gray-200 cursor-not-allowed"
               : isSuccess
-                ? "bg-green-600 border-green-600 cursor-not-allowed"
-                : "bg-blue-600 border-blue-600 hover:bg-blue-700 hover:border-blue-700 transition duration-300"
+                ? "bg-green-200 border-green-200 cursor-not-allowed"
+                : "bg-blue-200 border-blue-200 hover:bg-blue-300 hover:border-blue-300 transition duration-300"
           }`}
         >
           {isMining ? (
